@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  phone     String?
+  status    String   @default("new") // new, read, responded
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contacts")
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Intern {
+  id               String   @id @default(uuid())
+  employeeId       String   @unique
+  name             String
+  email            String
+  phone            String
+  gender           String?
+  country          String?
+  domain           String
+  appliedDate      DateTime @default(now())
+  startDate        DateTime
+  endDate          DateTime
+  phase            Int
+  status           String   @default("pending") // pending, active, completed
+  offerLetterSent  Boolean  @default(false)
+  certificateSent  Boolean  @default(false)
+  address          String?
+  college          String?
+  degree           String?
+  year             String?
+  socialMedia      String?
+  googleSheetRowId String?  // To track the row in Google Sheets
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("interns")
+  @@index([employeeId])
+  @@index([email])
+  @@index([status])
+  @@index([domain])
+}
