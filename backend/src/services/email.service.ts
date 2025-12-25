@@ -11,6 +11,27 @@ class EmailService {
   private msmeBase64: string;
   private signBase64: string;
 
+  // Domain to PDF filename mapping (supporting all possible names)
+  private domainPdfMapping: Record<string, string> = {
+    'data analytics': 'data-analytics.pdf',
+    'data-analytics': 'data-analytics.pdf',
+    'mern': 'mern.pdf',
+    'mern stack': 'mern.pdf',
+    'java': 'java.pdf',
+    'java development': 'java.pdf',
+    'data science': 'data-science.pdf',
+    'data-science': 'data-science.pdf',
+    'ai/ml': 'ai-ml.pdf',
+    'ai-ml': 'ai-ml.pdf',
+    'cyber security': 'cyber-security.pdf',
+    'cyber-security': 'cyber-security.pdf',
+    'python': 'python.pdf',
+    'python programming': 'python.pdf',
+    'ui/ux': 'ui-ux.pdf',
+    'ui-ux': 'ui-ux.pdf',
+    'ui ux design': 'ui-ux.pdf'
+  };
+
   constructor() {
     this.transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
@@ -41,33 +62,75 @@ class EmailService {
     }
   }
 
+  // Get domain-specific PDF buffer or null if not found
+  private getDomainPdfBuffer(domain: string): Buffer | null {
+    try {
+      if (!domain) return null;
+      const normalized = domain.trim().toLowerCase().replace(/[-_/]+/g, ' ').replace(/\s+/g, ' ');
+      let filename = this.domainPdfMapping[normalized];
+      if (!filename) {
+        // Try fallback: check if any mapping key is included in the domain string
+        const found = Object.keys(this.domainPdfMapping).find(key => normalized.includes(key));
+        if (found) filename = this.domainPdfMapping[found];
+      }
+      if (!filename) {
+        console.warn(`No PDF found for domain: ${domain}`);
+        return null;
+      }
+      const pdfPath = path.join(process.cwd(), 'src/assets/domain-pdfs', filename);
+      const pdfBuffer = fs.readFileSync(pdfPath);
+      return pdfBuffer;
+    } catch (err) {
+      if (err instanceof Error) {
+        console.warn(`Domain PDF not found for ${domain}:`, err.message);
+      } else {
+        console.warn(`Domain PDF not found for ${domain}:`, err);
+      }
+      return null;
+    }
+  }
 
-  // Send Offer Letter
+  // Send Offer Letter + Domain PDF
   async sendOfferLetter(intern: Intern): Promise<void> {
     const offerLetterHTML = this.generateOfferLetterHTML(intern);
     const simpleText = this.generateOfferLetterText(intern);
 
-    // Generate PDF from HTML
-    const pdfBuffer = await htmlPdf.generatePdf(
+    // Generate Offer Letter PDF from HTML
+    const offerLetterPdfBuffer = await htmlPdf.generatePdf(
       { content: offerLetterHTML },
       { format: 'A4', printBackground: true }
     ) as unknown as Buffer;
 
+    // Get domain-specific PDF
+    const domainPdfBuffer = this.getDomainPdfBuffer(intern.domain);
+
+    // Prepare attachments
+    const attachments = [
+      {
+        filename: `Offer-Letter-${intern.employeeId}.pdf`,
+        content: offerLetterPdfBuffer,
+        contentType: 'application/pdf'
+      }
+    ];
+
+    // Add domain PDF if available
+    if (domainPdfBuffer) {
+      attachments.push({
+        filename: `${intern.domain.replace(/\s+/g, '-').toLowerCase()}-program.pdf`,
+        content: domainPdfBuffer,
+        contentType: 'application/pdf'
+      });
+    }
+
     await this.transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to: intern.email,
-      subject: `🎉 Internship Offer Letter - ${intern.domain}`,
+      subject: `🎉 Internship Offer Letter + ${intern.domain} Program - ${intern.employeeId}`,
       text: simpleText,
-      attachments: [
-        {
-          filename: `Offer-Letter-${intern.employeeId}.pdf`,
-          content: pdfBuffer,
-          contentType: 'application/pdf'
-        }
-      ]
+      attachments
     });
 
-    console.log(`Offer letter sent to ${intern.email}`);
+    console.log(`Offer letter${domainPdfBuffer ? ' + domain PDF' : ''} sent to ${intern.email}`);
   }
 
   // Send Certificate

@@ -9,7 +9,7 @@ export const internshipPrograms: InternshipProgram[] = [
       mode: 'Remote',
       skills: ['Excel', 'SQL', 'Power BI', 'Data Visualization', 'Business Intelligence'],
       icon: '📈',
-      formLink: 'https://docs.google.com/forms/d/e/1FAIpQLScmmsKxPrMMbprKFAlKCPy1yYJ6LYmhiQbRSGxAN-WEO0tF2Q/viewform',
+      formLink: 'https://docs.google.com/forms/d/10i9GiQsVEsrA_XgsY9qXkB4sVjFujWUsZqe7B_QlZdY/',
     },
   {
     id: 'mern',
@@ -19,7 +19,7 @@ export const internshipPrograms: InternshipProgram[] = [
     mode: 'Remote',
     skills: ['MongoDB', 'Express.js', 'React', 'Node.js', 'REST APIs'],
     icon: '🚀',
-    formLink: 'https://docs.google.com/forms/d/e/1FAIpQLScmmsKxPrMMbprKFAlKCPy1yYJ6LYmhiQbRSGxAN-WEO0tF2Q/viewform',
+    formLink: 'https://docs.google.com/forms/d/10i9GiQsVEsrA_XgsY9qXkB4sVjFujWUsZqe7B_QlZdY/',
   },
   {
     id: 'java',
@@ -29,7 +29,7 @@ export const internshipPrograms: InternshipProgram[] = [
     mode: 'Remote',
     skills: ['Java', 'Spring Boot', 'Microservices', 'MySQL', 'REST APIs'],
     icon: '☕',
-    formLink: 'https://docs.google.com/forms/d/e/1FAIpQLScmmsKxPrMMbprKFAlKCPy1yYJ6LYmhiQbRSGxAN-WEO0tF2Q/viewform',
+    formLink: 'https://docs.google.com/forms/d/10i9GiQsVEsrA_XgsY9qXkB4sVjFujWUsZqe7B_QlZdY/',
   },
   {
     id: 'data-science',
@@ -39,7 +39,7 @@ export const internshipPrograms: InternshipProgram[] = [
     mode: 'Remote',
     skills: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'SQL'],
     icon: '📊',
-    formLink: 'https://docs.google.com/forms/d/e/1FAIpQLScmmsKxPrMMbprKFAlKCPy1yYJ6LYmhiQbRSGxAN-WEO0tF2Q/viewform',
+    formLink: 'https://docs.google.com/forms/d/10i9GiQsVEsrA_XgsY9qXkB4sVjFujWUsZqe7B_QlZdY/',
   },
   {
     id: 'ai-ml',
@@ -49,7 +49,7 @@ export const internshipPrograms: InternshipProgram[] = [
     mode: 'Remote',
     skills: ['Python', 'TensorFlow', 'PyTorch', 'Machine Learning', 'Deep Learning'],
     icon: '🤖',
-    formLink: 'https://docs.google.com/forms/d/e/1FAIpQLScmmsKxPrMMbprKFAlKCPy1yYJ6LYmhiQbRSGxAN-WEO0tF2Q/viewform',
+    formLink: 'https://docs.google.com/forms/d/10i9GiQsVEsrA_XgsY9qXkB4sVjFujWUsZqe7B_QlZdY/',
   },
   {
     id: 'cyber-security',
@@ -59,7 +59,7 @@ export const internshipPrograms: InternshipProgram[] = [
     mode: 'Remote',
     skills: ['Network Security', 'Ethical ', 'OWASP', 'Penetration Testing', 'Security Auditing'],
     icon: '🔐',
-    formLink: 'https://docs.google.com/forms/d/e/1FAIpQLScmmsKxPrMMbprKFAlKCPy1yYJ6LYmhiQbRSGxAN-WEO0tF2Q/viewform',
+    formLink: 'https://docs.google.com/forms/d/10i9GiQsVEsrA_XgsY9qXkB4sVjFujWUsZqe7B_QlZdY/',
   },
   {
     id: 'python',
@@ -69,7 +69,7 @@ export const internshipPrograms: InternshipProgram[] = [
     mode: 'Remote',
     skills: ['Python', 'Flask', 'Django', 'Databases', 'API Development'],
     icon: '🐍',
-    formLink: 'https://docs.google.com/forms/d/e/1FAIpQLScmmsKxPrMMbprKFAlKCPy1yYJ6LYmhiQbRSGxAN-WEO0tF2Q/viewform',
+    formLink: 'https://docs.google.com/forms/d/10i9GiQsVEsrA_XgsY9qXkB4sVjFujWUsZqe7B_QlZdY/',
   },
   {
     id: 'ui-ux',
@@ -79,7 +79,7 @@ export const internshipPrograms: InternshipProgram[] = [
     mode: 'Remote',
     skills: ['Figma', 'User Research', 'Prototyping', 'Wireframing', 'Design Systems'],
     icon: '🎨',
-    formLink: 'https://docs.google.com/forms/d/e/1FAIpQLScmmsKxPrMMbprKFAlKCPy1yYJ6LYmhiQbRSGxAN-WEO0tF2Q/viewform',
+    formLink: 'https://docs.google.com/forms/d/10i9GiQsVEsrA_XgsY9qXkB4sVjFujWUsZqe7B_QlZdY/',
   },
 ];
 

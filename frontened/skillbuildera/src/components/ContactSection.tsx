@@ -52,8 +52,8 @@ const ContactSection = () => {
     {
       icon: Phone,
       title: 'Call Us',
-      value: '+91 9719507080',
-      href: 'tel:+919719507080',
+      value: '+91 8679089320',
+      href: 'tel:+918679089320',
     },
     {
       icon: MapPin,

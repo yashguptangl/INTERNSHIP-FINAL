@@ -115,11 +115,6 @@ const AdminLogin = () => {
               >
                 {isLoading ? 'Logging in...' : 'Login'}
               </Button>
-
-              <div className="text-center text-sm text-muted-foreground mt-4">
-                <p>Default credentials:</p>
-                <p className="font-mono text-xs mt-1">admin@technosolutions.com / Admin@123</p>
-              </div>
             </form>
           </CardContent>
         </Card>
