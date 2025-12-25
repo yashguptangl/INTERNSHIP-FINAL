@@ -29,22 +29,32 @@ class GoogleSheetsService {
   }
 
   private async initializeAuth() {
-    const credentialsPath = process.env.GOOGLE_SHEETS_CREDENTIALS_PATH || './credentials.json';
-    
-    if (!fs.existsSync(credentialsPath)) {
-      console.warn('Google Sheets credentials not found. Sheet sync will be disabled.');
+  try {
+    if (!process.env.GOOGLE_SHEETS_CREDENTIALS_JSON) {
+      console.warn('Google Sheets credentials missing. Sync disabled.');
       return;
     }
 
-    const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf-8'));
-    
+    const credentials = JSON.parse(
+      process.env.GOOGLE_SHEETS_CREDENTIALS_JSON
+    );
+
     this.auth = new google.auth.GoogleAuth({
       credentials,
       scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
 
-    this.sheets = google.sheets({ version: 'v4', auth: this.auth });
+    this.sheets = google.sheets({
+      version: 'v4',
+      auth: this.auth,
+    });
+
+    console.log('✅ Google Sheets Auth Initialized (Render)');
+  } catch (error) {
+    console.error('❌ Google Sheets Auth Failed:', error);
   }
+}
+
 
   // Generate unique Employee ID
   private generateEmployeeId(domain: string, phase: number): string {
