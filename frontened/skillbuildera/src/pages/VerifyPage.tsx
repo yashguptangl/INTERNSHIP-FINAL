@@ -114,7 +114,7 @@ const VerifyPage = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
                 <Input
-                  placeholder="Enter Employee ID (e.g., MERN-25-P1-K9VX)"
+                  placeholder="Enter Employee ID"
                   value={employeeId}
                   onChange={(e) => setEmployeeId(e.target.value)}
                   className="pl-9 sm:pl-10 h-11 sm:h-12 text-sm sm:text-base"
@@ -237,36 +237,6 @@ const VerifyPage = () => {
               )}
             </motion.div>
           )}
-
-          {/* Info Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto mt-12 sm:mt-16"
-          >
-            <div className="p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 border border-border">
-              <h3 className="text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4 text-center">
-                📋 Employee ID Format
-              </h3>
-              <p className="text-center text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6">
-                Your unique Employee ID follows this format:
-              </p>
-              <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap px-2">
-                <Badge variant="secondary" className="text-xs sm:text-sm px-2 sm:px-4 py-0.5 sm:py-1">Domain</Badge>
-                <span className="text-muted-foreground text-xs sm:text-base">-</span>
-                <Badge variant="secondary" className="text-xs sm:text-sm px-2 sm:px-4 py-0.5 sm:py-1">Year</Badge>
-                <span className="text-muted-foreground text-xs sm:text-base">-</span>
-                <Badge variant="phase" className="text-xs sm:text-sm px-2 sm:px-4 py-0.5 sm:py-1">Phase</Badge>
-                <span className="text-muted-foreground text-xs sm:text-base">-</span>
-                <Badge variant="info" className="text-xs sm:text-sm px-2 sm:px-4 py-0.5 sm:py-1">Suffix</Badge>
-              </div>
-              <p className="text-center text-xs sm:text-sm text-muted-foreground mt-3 sm:mt-4">
-                Example: MERN-25-P1-K9VX (MERN Stack, 2025, Phase 1)
-              </p>
-            </div>
-          </motion.div>
         </div>
       </main>
 

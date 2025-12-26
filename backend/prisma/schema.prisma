@@ -39,7 +39,7 @@ model Intern {
   id               String   @id @default(uuid())
   employeeId       String   @unique
   name             String
-  email            String
+  email            String   @unique
   phone            String
   gender           String?
   country          String?

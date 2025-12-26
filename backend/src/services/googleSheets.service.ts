@@ -26,13 +26,14 @@ class GoogleSheetsService {
     this.initializeAuth();
   }
 
-  // ✅ Base64 → JSON → GoogleAuth
   private initializeAuth() {
     try {
       const b64 = process.env.GOOGLE_SHEETS_CREDENTIALS_BASE64;
 
       if (!b64) {
-        console.warn('❌ GOOGLE_SHEETS_CREDENTIALS_BASE64 missing. Google Sheets sync disabled.');
+        console.warn(
+          '❌ GOOGLE_SHEETS_CREDENTIALS_BASE64 missing. Google Sheets sync disabled.',
+        );
         return;
       }
 
@@ -88,18 +89,18 @@ class GoogleSheetsService {
     return 3;
   }
 
-  // ✅ NEW: parse "26/12/2025 00:43:27" safely
   private parseSheetTimestamp(raw: string): Date | null {
     if (!raw) return null;
 
-    // Expect format DD/MM/YYYY HH:MM:SS
     const [datePart, timePart] = raw.split(' ');
     if (!datePart) return null;
 
     const [dd, mm, yyyy] = datePart.split('/').map((v) => parseInt(v, 10));
     if (!dd || !mm || !yyyy) return null;
 
-    let hh = 0, min = 0, ss = 0;
+    let hh = 0,
+      min = 0,
+      ss = 0;
     if (timePart) {
       const t = timePart.split(':').map((v) => parseInt(v, 10));
       hh = t[0] || 0;
@@ -107,15 +108,13 @@ class GoogleSheetsService {
       ss = t[2] || 0;
     }
 
-    // JS Date: months are 0-based
     const d = new Date(yyyy, mm - 1, dd, hh, min, ss);
     if (isNaN(d.getTime())) return null;
     return d;
   }
 
-  // Start/end date based on application timestamp (safe)
   private calculateDates(applicationTimestamp: string) {
-    let appliedDate = this.parseSheetTimestamp(applicationTimestamp) || new Date();
+    const appliedDate = this.parseSheetTimestamp(applicationTimestamp) || new Date();
 
     const day = appliedDate.getDate();
     const month = appliedDate.getMonth();
@@ -168,7 +167,7 @@ class GoogleSheetsService {
       const getColumnIndex = (searchTerms: string[]): number => {
         for (const term of searchTerms) {
           const index = headers.findIndex((h: string) =>
-            h.toLowerCase().includes(term.toLowerCase())
+            h.toLowerCase().includes(term.toLowerCase()),
           );
           if (index !== -1) return index;
         }
@@ -187,7 +186,12 @@ class GoogleSheetsService {
         college: getColumnIndex(['college', 'university', 'institute']),
         degree: getColumnIndex(['degree', 'course', 'program']),
         year: getColumnIndex(['year', 'graduation year', 'passing year']),
-        socialMedia: getColumnIndex(['social', 'linkedin', 'portfolio', 'github']),
+        socialMedia: getColumnIndex([
+          'social',
+          'linkedin',
+          'portfolio',
+          'github',
+        ]),
       };
 
       console.log('🗺️ Column mapping:', columnMap);
@@ -218,10 +222,13 @@ class GoogleSheetsService {
             email: columnMap.email >= 0 ? row[columnMap.email] || '' : '',
             phone: columnMap.phone >= 0 ? row[columnMap.phone] || '' : '',
             gender: columnMap.gender >= 0 ? row[columnMap.gender] || '' : '',
-            country: columnMap.country >= 0 ? row[columnMap.country] || '' : '',
+            country:
+              columnMap.country >= 0 ? row[columnMap.country] || '' : '',
             domain: columnMap.domain >= 0 ? row[columnMap.domain] || '' : '',
-            address: columnMap.address >= 0 ? row[columnMap.address] || '' : '',
-            college: columnMap.college >= 0 ? row[columnMap.college] || '' : '',
+            address:
+              columnMap.address >= 0 ? row[columnMap.address] || '' : '',
+            college:
+              columnMap.college >= 0 ? row[columnMap.college] || '' : '',
             degree: columnMap.degree >= 0 ? row[columnMap.degree] || '' : '',
             year: columnMap.year >= 0 ? row[columnMap.year] || '' : '',
             socialMedia:
@@ -230,7 +237,9 @@ class GoogleSheetsService {
                 : '',
           };
 
-          if (!sheetData.email || sheetData.email.trim() === '') {
+          const trimmedEmail = sheetData.email?.trim() || '';
+
+          if (!trimmedEmail) {
             console.log(`⚠️ Row ${rowNumber}: Email empty, skipping.`);
             errorCount++;
             continue;
@@ -246,54 +255,40 @@ class GoogleSheetsService {
           const parsedAppliedDate = this.parseSheetTimestamp(rawTimestamp);
           if (!parsedAppliedDate) {
             console.log(
-              `⚠️ Row ${rowNumber}: Invalid timestamp "${rawTimestamp}", skipping.`
+              `⚠️ Row ${rowNumber}: Invalid timestamp "${rawTimestamp}", skipping.`,
             );
             errorCount++;
             continue;
           }
 
-          const existingIntern = await prisma.intern.findFirst({
-            where: { googleSheetRowId: `${rowNumber}` },
-          });
-
           const phase = this.calculatePhase();
           const { startDate, endDate } = this.calculateDates(rawTimestamp);
-          const employeeId = this.generateEmployeeId(sheetData.domain, phase);
 
-          if (existingIntern) {
-            await prisma.intern.update({
-              where: { id: existingIntern.id },
-              data: {
-                employeeId,
-                name: sheetData.name,
-                email: sheetData.email,
-                phone: sheetData.phone,
-                gender: sheetData.gender,
-                country: sheetData.country,
-                domain: sheetData.domain,
-                address: sheetData.address,
-                college: sheetData.college,
-                degree: sheetData.degree,
-                year: sheetData.year,
-                socialMedia: sheetData.socialMedia,
-                appliedDate: parsedAppliedDate,
-                startDate,
-                endDate,
-                phase,
-              },
-            });
-            console.log(
-              `♻️ Updated row ${rowNumber}: ${sheetData.name} (${sheetData.email})`
-            );
-            syncedCount++;
-            continue;
-          }
-
-          await prisma.intern.create({
-            data: {
-              employeeId,
+          // Directly use trimmed email as unique key
+          await prisma.intern.upsert({
+            where: { email: trimmedEmail },
+            update: {
               name: sheetData.name,
-              email: sheetData.email,
+              email: trimmedEmail,
+              phone: sheetData.phone,
+              gender: sheetData.gender,
+              country: sheetData.country,
+              domain: sheetData.domain,
+              address: sheetData.address,
+              college: sheetData.college,
+              degree: sheetData.degree,
+              year: sheetData.year,
+              socialMedia: sheetData.socialMedia,
+              appliedDate: parsedAppliedDate,
+              startDate,
+              endDate,
+              phase,
+              // employeeId not updated
+            },
+            create: {
+              employeeId: this.generateEmployeeId(sheetData.domain, phase),
+              name: sheetData.name,
+              email: trimmedEmail,
               phone: sheetData.phone,
               gender: sheetData.gender,
               country: sheetData.country,
@@ -313,7 +308,7 @@ class GoogleSheetsService {
           });
 
           console.log(
-            `✅ Synced row ${rowNumber}: ${sheetData.name} (${employeeId})`
+            `✅ Upserted row ${rowNumber}: ${sheetData.name} (${trimmedEmail})`,
           );
           syncedCount++;
         } catch (err) {
@@ -323,7 +318,7 @@ class GoogleSheetsService {
       }
 
       console.log(
-        `✅ Sync completed. ${syncedCount} interns synced, ${errorCount} errors.`
+        `✅ Sync completed. ${syncedCount} interns synced, ${errorCount} errors.`,
       );
     } catch (error) {
       console.error('❌ Error syncing from Google Sheets:', error);

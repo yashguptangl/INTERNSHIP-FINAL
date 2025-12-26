@@ -83,32 +83,6 @@ export const internshipPrograms: InternshipProgram[] = [
   },
 ];
 
-// Helper function to generate unique employee ID
-export const generateEmployeeId = (domain: string, phase: number): string => {
-  const domainCodes: Record<string, string> = {
-    'MERN Stack': 'MERN',
-    'Java Development': 'JAVA',
-    'Data Science': 'DATA',
-    'AI/ML': 'AIML',
-    'Cyber Security': 'CYBER',
-    'Python Programming': 'PYTHON',
-    'UI/UX Design': 'DESIGN',
-    'Data Analytics': 'DATA',
-  };
-  
-  const domainCode = (domainCodes[domain] || 'INTERN').toUpperCase();
-  const year = new Date().getFullYear().toString().slice(-2);
-  
-  // Generate unique suffix with alphanumeric mix for better readability
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // Excluded confusing chars (I, L, O, 1, 0)
-  let suffix = '';
-  for (let i = 0; i < 4; i++) {
-    suffix += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  
-  return `${domainCode}-${year}-P${phase}-${suffix}`;
-};
-
 // Calculate internship phase based on application date
 export const calculatePhase = (appliedDate: Date): PhaseInfo => {
   const day = appliedDate.getDate();
