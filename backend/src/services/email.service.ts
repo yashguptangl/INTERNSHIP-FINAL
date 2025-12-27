@@ -847,6 +847,11 @@ If you have any questions or need assistance, please feel free to contact us.
 
 We wish you a productive and successful internship experience with SkillBuild Era.
 
+📢 Official Telegram Channel
+To receive all important updates, announcements, and internship-related information, please join our official Telegram channel using the link below:
+👉 https://t.me/+wcN23oHH2xQ0YmFl
+Stay connected for updates
+
 Best regards,
 HR Team
 SkillBuild Era
