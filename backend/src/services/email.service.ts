@@ -820,35 +820,32 @@ private generateCertificateHTML(intern: Intern): string {
     return `
 Dear ${intern.name},
 
-We are delighted to inform you that you have been selected for the ${intern.domain} Internship Program at Skillbuild Era. Congratulations on this achievement!
+We are pleased to inform you that you have been selected for the ${intern.domain} Internship Program at SkillBuild Era. Congratulations on your selection.
 
-This internship program has been structured to provide you with valuable learning, practical exposure, and an opportunity to strengthen your skills through real-world projects and industry-relevant tasks.
+This internship is designed to provide practical learning, real-world exposure, and an opportunity to enhance your skills through industry-relevant tasks and projects.
 
-Your official Offer Letter (PDF) is attached below.
+Your official Offer Letter (PDF) is attached with this email.
 
-📝 Task List (Mandatory)
+Internship Tasks (Mandatory):
+A minimum of four tasks must be completed to be eligible for the internship certificate. The Task PDF is attached for your reference.
 
-👉 Task-PDF
-(Minimum of 2 tasks must be completed to be eligible for the certificate.)
+Important Guidelines:
 
-📌 Important Guidelines
+Update your LinkedIn profile and share your Offer Letter
 
-Update your LinkedIn profile and share your Offer Letter.
-Create a LinkedIn post after completing each task.
-Tag skillbuildera and use #SkillBuildEra #skillbuildera.
-Upload all completed tasks on GitHub.
-Certificates given only after task completion.
-📅 Internship Timeline
+Create a LinkedIn post after completing each task
 
-• Duration: ${formatDate(intern.startDate)} to ${formatDate(intern.endDate)}
+Tag skillbuildera and use #SkillBuildEra and #skillbuildera
 
-Task Submission Form: Will be shared after internship begins
+Upload all completed tasks on GitHub
 
-Certificates Release: After successful evaluation of all submissions
+Certificates will be issued only after successful task completion and evaluation
 
-🤝 Need Help?
+Task submission form will be shared after the internship begins. Certificates will be released after evaluation of all submissions.
 
-Feel free to reach out anytime. We are always here to support you.
+If you have any questions or need assistance, please feel free to contact us.
+
+We wish you a productive and successful internship experience with SkillBuild Era.
 
 Best regards,
 HR Team
