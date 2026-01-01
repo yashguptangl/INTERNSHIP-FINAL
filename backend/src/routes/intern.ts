@@ -75,6 +75,10 @@ router.post('/', authenticate, async (req, res) => {
 
     const employeeId = generateEmployeeId(domain, phase);
 
+    // Always set endDate to 28 days after startDate
+    const fixedEndDate = new Date(internshipStart);
+    fixedEndDate.setDate(fixedEndDate.getDate() + 27); // 28 days including start
+
     const intern = await prisma.intern.create({
       data: {
         name,
@@ -85,7 +89,7 @@ router.post('/', authenticate, async (req, res) => {
         domain,
         appliedDate,
         startDate: internshipStart,
-        endDate: internshipEnd,
+        endDate: fixedEndDate,
         phase,
         address,
         college,

@@ -122,8 +122,20 @@ class EmailService {
 
   // Send Offer Letter + Domain PDF
   async sendOfferLetter(intern: Intern): Promise<void> {
-    const offerLetterHTML = this.generateOfferLetterHTML(intern);
-    const simpleText = this.generateOfferLetterText(intern);
+    // Always set duration to 28 days (4 weeks)
+    const startDate = new Date(intern.startDate);
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 27); // 28 days including start
+
+    // Clone intern object with forced duration
+    const internWithFixedDuration = {
+      ...intern,
+      startDate,
+      endDate,
+    };
+
+    const offerLetterHTML = this.generateOfferLetterHTML(internWithFixedDuration);
+    const simpleText = this.generateOfferLetterText(internWithFixedDuration);
 
     const offerLetterPdfBuffer = (await htmlPdf.generatePdf(
       { content: offerLetterHTML },
